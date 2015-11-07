@@ -5,6 +5,7 @@ $(document).ready(function() {
   $('#a-button').click(getFaceData);
 
   function getFaceData() {
+    console.log("working");
     var imageParams = {
            // Request parameters
            "analyzesFaceLandmarks": "false",
@@ -15,13 +16,16 @@ $(document).ready(function() {
 
        $.ajax({
          url: 'https://api.projectoxford.ai/face/v0/detections&' + $.param(imageParams),
-         beforeSend:
-         type: 'default GET (Other values: POST)',
-         dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-         data: {param1: 'value1'}
+         beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","1a0f398494894081a01dc4f9fc60d690");
+         },
+         type: 'POST',
+         data: "http://www.totalpenishealth.com/article/wp-content/uploads/2015/01/tips.jpg"
        })
-       .done(function() {
-         console.log("success");
+       .done(function(data) {
+         console.log(data);
        })
        .fail(function() {
          console.log("error");
