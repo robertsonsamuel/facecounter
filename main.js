@@ -23,16 +23,16 @@ $(document).ready(function() {
 
     if ($(this).attr('id') === 'pic1') {
       console.log('detecting on pic 1');
-      url = $('#url1').val();
-      $('#pic1').prop('disabled', 'true');
+      url = $('#urlone').val();
+      // $('#pic1').prop('disabled', 'true');
     } else {
       console.log('detecting on pic 2');
-      url = $('#url2').val();
-      $('#pic2').prop('disabled', 'true');
+      url = $('#urltwo').val();
+      // $('#pic2').prop('disabled', 'true');
     }
 
     // display the picture currently being processed in the DOM
-    $('#pictures').empty().append( $('<img>').attr('src', url) );
+    $('#pictures').append( $('<img>').attr('src', url) );
 
     console.log('url:', url)
 

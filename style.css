@@ -1,11 +1,88 @@
 div {
   margin: 4px;
 }
-
-td {
-  font-family: monospace;
+#key{
+    display:none;
+}
+input{
+    color:white;
+}
+.indent{
+    margin-left:20px;
+}
+.description{
+    margin:15px;
+    width:87%;
+    color:white;
+    font-size:12px;
+    text-align:justify;
+}
+#container{
+  background-image:url(bg.jpg);
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:center center;
+  width:100vw;
+  height:100vh;
+  position:fixed;
+  margin:0;
+}
+#overlay {
+  position:absolute;
+  background-color:RGBA(0,0,0,0.4);
+  width:100%;
+  height:100%;
+  margin:0;
+}
+h1{
+    color:white;
+    border-bottom:1px solid white;
+    font-size:80px;
+}
+a{
+    color:black;
 }
 
-#faceIds {
-  display: none;
+body{
+margin-top: 0;
+margin-bottom: 0;
+}
+
+#leftCol{
+    border-right:1px solid white;
+    width:275px;
+    overflow:scroll;
+    height:80vh;
+    margin:0px;
+}
+#url1 , #url2 {
+    width:255px;
+    margin:10px;
+    padding-right:10px;
+}
+h2{
+    color:white;
+    font-size:18px;
+}
+.rtn{
+    background-color:RGBA(0,0,0,0.1);
+    position:absolute;
+    border-top:1px solid white;
+    border-bottom:1px solid white;
+    min-width:1400px;
+    min-height:700px;
+    z-index:999;
+    left:300px;
+    top:200px;
+    color:white;
+    text-align:center;
+    overflow:hidden:;
+}
+
+button{
+  margin:10px;
+}
+
+.face{
+  border:1px solid white;
 }

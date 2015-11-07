@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Facial Recognition</title>
+  <title>.Facial Recognition.</title>
   <!-- include the Bootstrap stylesheet here if desired -->
   <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
@@ -15,30 +16,59 @@
   <!-- see http://getbootstrap.com/getting-started/ -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h1>Facial Recognition and Verification</h1>
-  <p>using the <a href="https://dev.projectoxford.ai">Project Oxford API</a></p>
-  <input type="text" id="key" value="1a0f398494894081a01dc4f9fc60d690" size="36">
-  <hr>
-  <div>URL 1: <input type="text" id="url1" value="http://i.imgur.com/XwZbreml.jpg" size="50"></div>
-  <div>URL 2: <input type="text" id="url2" value="http://i.imgur.com/JaOEjv3l.jpg" size="50"></div>
-  <div><button id="pic1">Detect Faces in Pic 1</button></div>
-  <div><button id="pic2">Add Distinct Faces From Pic 2</button></div>
-  <!-- <input id="fileinput" type="file" /><br /> -->
+<body leftmargin="0" topmargin=0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight=0">
+<div id='container'>
+  <div id='overlay'>
+    <div class='indent'>
+      <h1> - Face Count -</h1>
+      <h2> a dynamic web application provides facial analysis</h2>
+      <p>using the <a href="https://dev.projectoxford.ai">Project Oxford API</a></p>
+      <div id='leftCol'>
+            <input type="text" id="key" value="1a0f398494894081a01dc4f9fc60d690" size="36">
+            <hr>
+              <h2> URL </h2>
 
-  <hr>
+              <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"> url </span>
+                <input type="text" if='ur' class="form-control" placeholder="Enter image url or upload" aria-describedby="basic-addon1" id="urlone">
+              </div>
 
-  <div id="output">
+         
+              <div class='description'>
+                Face Time is a dynamic web application that allows clients to both dynamically count how many faces appear in the photo and to compare photos for facial identification. <br><br>
+
+              </div>
+
+              <div style='text-align:center'>
+              <button id='pic1' class='btn btn-default'> Detect Faces</button>
+              </div>
+           </div>   
+
+        <!-- <input id="fileinput" type="file" /><br /> -->
+  <div id="output" class='rtn'>
     <div id="pictures"></div>
 
     <table id="faceIds">
       <tbody>
         <tr>
-          <th>Face IDs</th>
+          <th>
+            <div id='pictures'>
+
+          <div id='face' display='name'> </div>
+
+
+            </div>
+          </th>
         </tr>
       </tbody>
     </table>
   </div>
+
+      
+      
+    </div>
+  </div>
+</div>
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <!-- include the Bootstrap JavaScript here if desired -->
