@@ -3,12 +3,13 @@
 $(document).ready(function() {
 
   $('#a-button').click(() => {
-    getFaceData('http://www.dailystormer.com/wp-content/uploads/2015/07/Happy-White-People-5.jpg');
+    getFaceData('http://i.imgur.com/XwZbreml.jpg');
   });
 
   function getFaceData(url) {
+    let faceData;
     console.log("working");
-    var imageParams = {
+    let imageParams = {
            // Request parameters
            "analyzesFaceLandmarks": "true",
            "analyzesAge": "true",
@@ -16,26 +17,29 @@ $(document).ready(function() {
            "analyzesHeadPose": "true",
        };
 
-       $.ajax({
-         url: 'https://api.projectoxford.ai/face/v0/detections?' + $.param(imageParams),
-         beforeSend: function(xhrObj){
-                // Request headers
-                xhrObj.setRequestHeader("Content-Type","application/json");
-                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","1a0f398494894081a01dc4f9fc60d690");
-         },
-         type: 'POST',
-         data: `{'url': '${url}'}`
-       })
-       .done(function(data) {
-         console.log(data);
-       })
-       .fail(function() {
-         console.log("error");
-       })
-       .always(function() {
-         console.log("complete");
-       });
+   $.ajax({
+     url: 'https://api.projectoxford.ai/face/v0/detections?' + $.param(imageParams),
+     beforeSend: function(xhrObj){
+            // Request headers
+            xhrObj.setRequestHeader("Content-Type","application/json");
+            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","1a0f398494894081a01dc4f9fc60d690");
+     },
+     type: 'POST',
+     data: `{'url': '${url}'}`
+   })
+   .done(function(data) {
+     faceData = data;
+     console.log(faceData,"inside done fun");
+   })
+   .fail(function() {
+     console.log("error");
+   })
+   .always(function() {
+     console.log("complete");
+   });
 
+   console.log(faceData,"outside done func");
+   return faceData;
 
   }
 
