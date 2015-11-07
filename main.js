@@ -1,59 +1,48 @@
 'use strict';
 
 $(document).ready(function() {
+  let url1 = 'http://i.imgur.com/XwZbreml.jpg';
+  let url2 = 'http://i.imgur.com/JaOEjv3l.jpg';
+  let imageParams = {
+    // Request parameters
+    "analyzesFaceLandmarks": "false",
+    "analyzesAge": "true",
+    "analyzesGender": "true",
+    "analyzesHeadPose": "true"
+  };
 
   $('#a-button').click(() => {
-  getFaceData('http://i.imgur.com/XwZbreml.jpg');
+    var jqxhr1 = $.ajax( paramForAJAX(url1) );
+    var jqxhr2 = $.ajax( paramForAJAX(url2) );
+
+    $.when(jqxhr1, jqxhr2).done(function(jqxhr1, jqxhr2) {
+      let faces1 = jqxhr1[0];
+      let faces2 = jqxhr2[0];
+      console.log(faces1);
+      console.log(faces2);
+    });
   });
 
-  function getFaceData(url) {
-    let faceData;
-    console.log("working");
-    let imageParams = {
-           // Request parameters
-           "analyzesFaceLandmarks": "true",
-           "analyzesAge": "true",
-           "analyzesGender": "true",
-           "analyzesHeadPose": "true",
-       };
-
-   $.ajax({
-     url: 'https://api.projectoxford.ai/face/v0/detections?' + $.param(imageParams),
-     beforeSend: function(xhrObj){
-            // Request headers
-            xhrObj.setRequestHeader("Content-Type","application/json");
-            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","1a0f398494894081a01dc4f9fc60d690");
-     },
-     type: 'POST',
-     data: `{'url': '${url}'}`
-   })
-   .done(function(data) {
-     faceData = data;
-     //sameFace(faceData);
-     console.log(faceData,"inside done fun");
-   })
-   .fail(function() {
-     console.log("error");
-   })
-   .always(function() {
-     console.log("complete");
-   });
-
-   //console.log(faceData,"outside done func");
-   return faceData;
-
+  function paramForAJAX(url) {
+    return {
+      url: 'https://api.projectoxford.ai/face/v0/detections?' + $.param(imageParams),
+      beforeSend: function(xhrObj){
+             // Request headers
+             xhrObj.setRequestHeader("Content-Type","application/json");
+             xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","1a0f398494894081a01dc4f9fc60d690");
+      },
+      type: 'POST',
+      data: `{'url': '${url}'}`
+    };
   }
 
 
-function sameFace(faces) {
-  var faceIds = {faceId1:'',faceId2:'',};
-  faces.forEach(function(person){
-    faceIds.push(person.faceId);
-  });
-
-
-}
-
+  function sameFace(faces) {
+    var faceIds = {faceId1:'',faceId2:'',};
+    faces.forEach(function(person){
+      faceIds.push(person.faceId);
+    });
+  }
 
 
 
