@@ -49,27 +49,10 @@ $(document).ready(function() {
         if (faces.length > 0) {
           let haveAlreadyp = verifyFace(person.faceId, faces[0].faceId);
           $.when(haveAlreadyp).then((data) => {
-            console.log('haveAlreadyp result:', data.isIdentical);
-
-            if (!data.isIdentical) {
-              // update our array of known faces
-              faces.push(person);
-              console.log('faces array:', faces);
-              // print the new face ID to the DOM
-              let $row = $('<tr>').append( $('<td>').text(person.faceId) );
-              $('#faceIds').append($row).show();
-
-              // TODO: DISPLAY BOX AROUND THIS PERSON'S FACE ON TOP OF PICTURE
-            }
-
+            if (!data.isIdentical) addPerson(person);
           });
         } else {
-          // update our array of known faces
-          faces.push(person);
-          console.log('faces array:', faces);
-          // print the new face ID to the DOM
-          let $row = $('<tr>').append( $('<td>').text(person.faceId) );
-          $('#faceIds').append($row).show();
+          addPerson(person);
         }
       });
 
@@ -80,6 +63,23 @@ $(document).ready(function() {
     });
 
   }; // end detectFaces function
+
+
+  function addPerson(person) {
+    // update our array of known faces
+    faces.push(person);
+    console.log('faces array:', faces);
+
+    // print the new face ID to the DOM
+    let attrs = person.attributes;
+    console.log('person:', attrs.gender, attrs.age);
+    let $row = $('<tr>').append( $('<td>').text(person.faceId) )
+                        .append( $('<td>').text(attrs.gender) )
+                        .append( $('<td>').text(attrs.age) );
+    $('#faceIds').append($row).show();
+
+    // TODO: DISPLAY BOX AROUND THIS PERSON'S FACE ON TOP OF PICTURE
+  }
 
 
   function paramForDetect(url) {
