@@ -2,9 +2,11 @@
 
 $(document).ready(function() {
 
-  $('#a-button').click(getFaceData);
+  $('#a-button').click(() => {
+    getFaceData('http://www.dailystormer.com/wp-content/uploads/2015/07/Happy-White-People-5.jpg');
+  });
 
-  function getFaceData() {
+  function getFaceData(url) {
     console.log("working");
     var imageParams = {
            // Request parameters
@@ -22,7 +24,7 @@ $(document).ready(function() {
                 xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","1a0f398494894081a01dc4f9fc60d690");
          },
          type: 'POST',
-         data: "{'url': 'http://www.dailystormer.com/wp-content/uploads/2015/07/Happy-White-People-5.jpg'}"
+         data: `{'url': '${url}'}`
        })
        .done(function(data) {
          console.log(data);
