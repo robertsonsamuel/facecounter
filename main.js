@@ -14,7 +14,6 @@ $(document).ready(function() {
 
   $('#pic1, #pic2').click(detectFaces);
 
-
   function detectFaces() {
     key = $('#key').val();
     let url;
@@ -31,6 +30,8 @@ $(document).ready(function() {
       $('#pic2').prop('disabled', 'true');
       console.log('url2:', url)
     }
+
+    $('#pictures').empty().append( $('<img>').attr('src', url) );
 
     $.ajax( paramForDetect(url) )
     .done(function(data) {
