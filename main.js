@@ -16,8 +16,33 @@ $(document).ready(function() {
 
 
   function detectFaces() {
-    $.ajax( paramForDetect(url1) );
-    .done()
+    key = $('#key').val();
+    console.log('key:', key);
+    console.log('faces:', faces, ', faces.length:', faces.length);
+    if (faces.length === 0) { // if the faces array is empty
+      console.log('detecting on pic 1');
+      let url1 = $('#url1').val();
+      console.log('url1:', url1)
+
+      $.ajax( paramForDetect(url1) )
+      .done(function(data) {
+        let faceIds = $('<div>');
+        data.forEach((person) => {
+          console.log('person:', person);
+          faces.push(person);
+          console.log('faces array:', faces);
+        });
+      })
+      .fail(function(err) {
+        console.log(err);
+        alert('Detect-Faces Failed');
+      });
+    } else {
+
+      console.log('detecting on pic 2');
+      let url2 = $('#url2').val();
+      console.log('url2:', url2)
+    }
   };
 
 
