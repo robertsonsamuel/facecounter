@@ -3,7 +3,7 @@
 $(document).ready(function() {
 
   $('#a-button').click(() => {
-    getFaceData('http://i.imgur.com/XwZbreml.jpg');
+  getFaceData('http://i.imgur.com/XwZbreml.jpg');
   });
 
   function getFaceData(url) {
@@ -29,6 +29,7 @@ $(document).ready(function() {
    })
    .done(function(data) {
      faceData = data;
+     //sameFace(faceData);
      console.log(faceData,"inside done fun");
    })
    .fail(function() {
@@ -38,10 +39,21 @@ $(document).ready(function() {
      console.log("complete");
    });
 
-   console.log(faceData,"outside done func");
+   //console.log(faceData,"outside done func");
    return faceData;
 
   }
+
+
+function sameFace(faces) {
+  var faceIds = {faceId1:'',faceId2:'',};
+  faces.forEach(function(person){
+    faceIds.push(person.faceId);
+  });
+
+
+}
+
 
 
 
