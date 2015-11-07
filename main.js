@@ -14,43 +14,72 @@ $(document).ready(function() {
 
   $('#pic1, #pic2').click(detectFaces);
 
+
   function detectFaces() {
     key = $('#key').val();
     let url;
     console.log('key:', key);
     console.log('faces:', faces, ', faces.length:', faces.length);
-    if (faces.length === 0) { // if the faces array is empty
+
+    if ($(this).attr('id') === 'pic1') {
       console.log('detecting on pic 1');
       url = $('#url1').val();
       $('#pic1').prop('disabled', 'true');
-      console.log('url1:', url)
     } else {
       console.log('detecting on pic 2');
       url = $('#url2').val();
       $('#pic2').prop('disabled', 'true');
-      console.log('url2:', url)
     }
 
+    // display the picture currently being processed in the DOM
     $('#pictures').empty().append( $('<img>').attr('src', url) );
 
+    console.log('url:', url)
+
+    // oh dear, this is callback hell...
     $.ajax( paramForDetect(url) )
     .done(function(data) {
+      console.log("we've got face data:", data);
+
+      let newFaces = [];
       let newFaceIds = [];
+
       data.forEach((person) => {
-        console.log('person:', person);
-        console.log('faceId:', person.faceId);
-        faces.push(person);
-        newFaceIds.push($('<tr>').append( $('<td>').text(person.faceId) ));
-        console.log('faces array:', faces);
+        // if the face is not already in our faces array, add it
+        if (faces.length > 0) {
+          let haveAlreadyp = verifyFace(person.faceId, faces[0].faceId);
+          $.when(haveAlreadyp).then((data) => {
+            console.log('haveAlreadyp result:', data.isIdentical);
+
+            if (!data.isIdentical) {
+              // update our array of known faces
+              faces.push(person);
+              console.log('faces array:', faces);
+              // print the new face ID to the DOM
+              let $row = $('<tr>').append( $('<td>').text(person.faceId) );
+              $('#faceIds').append($row).show();
+
+              // TODO: DISPLAY BOX AROUND THIS PERSON'S FACE ON TOP OF PICTURE
+            }
+
+          });
+        } else {
+          // update our array of known faces
+          faces.push(person);
+          console.log('faces array:', faces);
+          // print the new face ID to the DOM
+          let $row = $('<tr>').append( $('<td>').text(person.faceId) );
+          $('#faceIds').append($row).show();
+        }
       });
-      $('#faceIds').append(newFaceIds).show();
+
     })
     .fail(function(err) {
       console.log(err);
       console.log('Detect-Faces Failed');
     });
 
-  };
+  }; // end detectFaces function
 
 
   function paramForDetect(url) {
@@ -67,10 +96,11 @@ $(document).ready(function() {
   }
 
   function verifyFace(faceId1, faceId2) {
-    $.ajax( paramForVerify({"faceId1":faceId1, "faceId2":faceId2}) )
-    .done(function(data) {
-      console.log(data); // -> {isIdentical: true, confidence: 0.80458}
-    })
+    return $.ajax( paramForVerify({"faceId1":faceId1, "faceId2":faceId2}) )
+    .fail(function(err) {
+      console.log(err);
+      console.log('Verify-Face Failed for:', faceId1, 'vs', faceId2);
+    });
   }
 
   function paramForVerify(faceIds) {
@@ -86,11 +116,4 @@ $(document).ready(function() {
     };
   }
 
-
-
-
-
 });
-
-//fae4157b-a984-4bbf-aab3-b93e5d250efa
-//1a0f398494894081a01dc4f9fc60d690
