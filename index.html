@@ -10,11 +10,15 @@
 <body>
   <h1>Facial Recognition and Verification</h1>
   <p>using the <a href="https://dev.projectoxford.ai">Project Oxford API</a></p>
+  <input type="text" id="key" value="1a0f398494894081a01dc4f9fc60d690">
   <hr>
-  <div><button id="detect">Detect Faces In Two Pictures Asynchronously</button></div>
-  <div><button id="verify">Verify Two Faces Are The Same</button></div>
-  <div><em>see console log for output</em></div>
+  <div>URL 1: <input type="text" id="url1" value="http://i.imgur.com/XwZbreml.jpg" size="50"></div>
+  <div>URL 2: <input type="text" id="url2" value="http://i.imgur.com/JaOEjv3l.jpg" size="50"></div>
+  <div><button id="pic1">Detect Faces in Pic 1</button></div>
+  <div><button id="pic2">Add Distinct Faces From Pic 2</button></div>
   <!-- <input id="fileinput" type="file" /><br /> -->
+
+  <div id="output"></div>
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <!-- include the Bootstrap JavaScript here if desired -->

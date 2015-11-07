@@ -2,10 +2,7 @@
 
 $(document).ready(function() {
 
-  let url1 = 'http://i.imgur.com/XwZbreml.jpg';
-  let url2 = 'http://i.imgur.com/JaOEjv3l.jpg';
-
-  let key = "1a0f398494894081a01dc4f9fc60d690";
+  let key;
   let faces = [];
   let imageParams = {
     // Request parameters
@@ -15,20 +12,14 @@ $(document).ready(function() {
     "analyzesHeadPose": "true"
   };
 
-  $('#detect').click(detectFaces);
-  $('#verify').click(verifyFace);
+  $('#pic1, #pic2').click(detectFaces);
+
 
   function detectFaces() {
-    let jqxhr1 = $.ajax( paramForDetect(url1) );
-    let jqxhr2 = $.ajax( paramForDetect(url2) );
-
-    $.when(jqxhr1, jqxhr2).done(function(jqxhr1, jqxhr2) {
-      let faces1 = jqxhr1[0];
-      let faces2 = jqxhr2[0];
-      console.log(faces1);
-      console.log(faces2);
-    });
+    $.ajax( paramForDetect(url1) );
+    .done()
   };
+
 
   function paramForDetect(url) {
     return {
