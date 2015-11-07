@@ -17,32 +17,38 @@ $(document).ready(function() {
 
   function detectFaces() {
     key = $('#key').val();
+    let url;
     console.log('key:', key);
     console.log('faces:', faces, ', faces.length:', faces.length);
     if (faces.length === 0) { // if the faces array is empty
       console.log('detecting on pic 1');
-      let url1 = $('#url1').val();
-      console.log('url1:', url1)
-
-      $.ajax( paramForDetect(url1) )
-      .done(function(data) {
-        let faceIds = $('<div>');
-        data.forEach((person) => {
-          console.log('person:', person);
-          faces.push(person);
-          console.log('faces array:', faces);
-        });
-      })
-      .fail(function(err) {
-        console.log(err);
-        alert('Detect-Faces Failed');
-      });
+      url = $('#url1').val();
+      $('#pic1').prop('disabled', 'true');
+      console.log('url1:', url)
     } else {
-
       console.log('detecting on pic 2');
-      let url2 = $('#url2').val();
-      console.log('url2:', url2)
+      url = $('#url2').val();
+      $('#pic2').prop('disabled', 'true');
+      console.log('url2:', url)
     }
+
+    $.ajax( paramForDetect(url) )
+    .done(function(data) {
+      let newFaceIds = [];
+      data.forEach((person) => {
+        console.log('person:', person);
+        console.log('faceId:', person.faceId);
+        faces.push(person);
+        newFaceIds.push($('<tr>').append( $('<td>').text(person.faceId) ));
+        console.log('faces array:', faces);
+      });
+      $('#faceIds').append(newFaceIds).show();
+    })
+    .fail(function(err) {
+      console.log(err);
+      console.log('Detect-Faces Failed');
+    });
+
   };
 
 
@@ -59,10 +65,7 @@ $(document).ready(function() {
     };
   }
 
-  function verifyFace() {
-    let faceId1 = "8efb19d0-62f0-43fc-a0d6-195a91c09c36"; // Sam 1
-    let faceId2 = "1d992fb4-cbb0-4142-b708-3cfac038bfa6"; // Sam 2
-
+  function verifyFace(faceId1, faceId2) {
     $.ajax( paramForVerify({"faceId1":faceId1, "faceId2":faceId2}) )
     .done(function(data) {
       console.log(data); // -> {isIdentical: true, confidence: 0.80458}

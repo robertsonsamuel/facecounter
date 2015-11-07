@@ -1,3 +1,11 @@
 div {
   margin: 4px;
 }
+
+td {
+  font-family: monospace;
+}
+
+#faceIds {
+  display: none;
+}
