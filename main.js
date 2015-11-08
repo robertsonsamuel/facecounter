@@ -15,6 +15,7 @@ $(document).ready(function() {
   $('#pic1, #pic2').click(detectFaces);
 
 
+
   function detectFaces() {
     key = $('#key').val();
     let url;
@@ -32,7 +33,7 @@ $(document).ready(function() {
     }
 
     // display the picture currently being processed in the DOM
-    $('#pictures').append( $('<img>').attr('src', url) );
+    $('#pictures').append( $('<img>').attr('src', url) ).addClass('testImage');
 
     console.log('url:', url)
 
@@ -56,6 +57,7 @@ $(document).ready(function() {
               faces.push(person);
               console.log('faces array:', faces);
               // print the new face ID to the DOM
+              $('#numberOfpeople').text(faces.length);
               let $row = $('<tr>').append( $('<td>').text(person.faceId) );
               $('#faceIds').append($row).show();
 
@@ -67,6 +69,7 @@ $(document).ready(function() {
           // update our array of known faces
           faces.push(person);
           console.log('faces array:', faces);
+          $('#numberOfpeople').text(faces.length);
           // print the new face ID to the DOM
           let $row = $('<tr>').append( $('<td>').text(person.faceId) );
           $('#faceIds').append($row).show();
