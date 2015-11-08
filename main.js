@@ -36,54 +36,56 @@ $(document).ready(function() {
     $('#pictures').append( $('<img>').attr('src', url) ).addClass('testImage');
 
     console.log('url:', url)
+              $('#numberOfpeople').text(faces.length);
 
     // oh dear, this is callback hell...
     $.ajax( paramForDetect(url) )
-    .done(function(data) {
-      console.log("we've got face data:", data);
+     .done(function(data) {
+       console.log("we've got face data:", data);
 
-      let newFaces = [];
-      let newFaceIds = [];
+       let newFaces = [];
+       let newFaceIds = [];
 
-      data.forEach((person) => {
-        // if the face is not already in our faces array, add it
-        if (faces.length > 0) {
-          let haveAlreadyp = verifyFace(person.faceId, faces[0].faceId);
-          $.when(haveAlreadyp).then((data) => {
-            console.log('haveAlreadyp result:', data.isIdentical);
+       data.forEach((person) => {
+         // if the face is not already in our faces array, add it
+         if (faces.length > 0) {
+           let haveAlreadyp = verifyFace(person.faceId, faces[0].faceId);
+           $.when(haveAlreadyp).then((data) => {
+             if (!data.isIdentical){
+                 addPerson(person);
+                 $('#numberOfpeople').text(faces.length);
+             }
+           });
+         } else {
+           addPerson(person);
+         }
+       });
 
-            if (!data.isIdentical) {
-              // update our array of known faces
-              faces.push(person);
-              console.log('faces array:', faces);
-              // print the new face ID to the DOM
-              $('#numberOfpeople').text(faces.length);
-              let $row = $('<tr>').append( $('<td>').text(person.faceId) );
-              $('#faceIds').append($row).show();
+     })
+     .fail(function(err) {
+       console.log(err);
+       console.log('Detect-Faces Failed');
+     });
 
-              // TODO: DISPLAY BOX AROUND THIS PERSON'S FACE ON TOP OF PICTURE
-            }
+   }; // end detectFaces function
 
-          });
-        } else {
-          // update our array of known faces
-          faces.push(person);
-          console.log('faces array:', faces);
-          $('#numberOfpeople').text(faces.length);
-          // print the new face ID to the DOM
-          let $row = $('<tr>').append( $('<td>').text(person.faceId) );
-          $('#faceIds').append($row).show();
-        }
-      });
 
-    })
-    .fail(function(err) {
-      console.log(err);
-      console.log('Detect-Faces Failed');
-    });
+   function addPerson(person) {
+     // update our array of known faces
+     faces.push(person);
+     console.log('faces array:', faces);
 
-  }; // end detectFaces function
+     // print the new face ID to the DOM
+     let attrs = person.attributes;
+     console.log('person:', attrs.gender, attrs.age);
+     let $row = $('<tr>').append( $('<td>').text(person.faceId) )
+                         .append( $('<td>').text(attrs.gender) )
+                         .append( $('<td>').text(attrs.age) );
+     $('#faceIds').append($row).show();
 
+     // TODO: DISPLAY BOX AROUND THIS PERSON'S FACE ON TOP OF PICTURE
+   }
+   
 
   function paramForDetect(url) {
     return {
